@@ -1,0 +1,101 @@
+
+CREATE DATABASE SMS;
+
+USE SMS;
+
+CREATE TABLE PERSON(
+person_id VARCHAR(5) NOT NULL,
+fname VARCHAR(100) NOT NULL,
+lname VARCHAR(100) NOT NULL,
+dob DATE NOT NULL,
+age INT(2) NOT NULL,
+address1 VARCHAR(100) NOT NULL,
+address2 VARCHAR(100),
+address3 VARCHAR(100)
+mobile_no INT(10) NOT NULL,
+tel_no INT(10) NOT NULL,
+CONSTRAINT PRIMARY KEY(person_id)
+);
+
+CREATE TABLE teacher(
+tid VARCHAR(4) NOT NULL,
+CONSTRAINT PRIMARY KEY(tid),
+CONSTRAINT FOREIGN KEY(tid) REFERENCES person(person_id)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE grade(
+grade_code VARCHAR(4) NOT NULL,
+grade INT(2) NOT NULL,
+tid VARCHAR(4) NOT NULL,
+CONSTRAINT PRIMARY KEY(grade_code),
+CONSTRAINT FOREIGN KEY(tid) REFERENCES teacher(tid)
+ON UPDATE CASCADE ON DELETE CASCADE
+
+);
+
+CREATE TABLE class_room(
+class_code VARCHAR(4) NOT NULL,
+category VARCHAR(1) NOT NULL,
+grade_code VARCHAR(4) NOT NULL,
+CONSTRAINT PRIMARY KEY(class_code),
+CONSTRAINT FOREIGN KEY(grade_code) REFERENCES grade(grade_code)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE student(
+sid VARCHAR(6) NOT NULL,
+class_code VARCHAR(4) NOT NULL,
+grade_code VARCHAR(4) NOT NULL,
+CONSTRAINT PRIMARY KEY(sid),
+CONSTRAINT FOREIGN KEY(class_code) REFERENCES class_room(class_code)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FOREIGN KEY(grade_code) REFERENCES grade(grade_code)
+ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FOREIGN KEY(sid) REFERENCES person(person_id)
+ON UPDATE CASCADE ON DELETE CASCADE
+
+);
+
+
+
+
+INSERT INTO teacher VALUES('t001');
+INSERT INTO teacher VALUES('t002');
+INSERT INTO teacher VALUES('t003');
+INSERT INTO teacher VALUES('t004');
+INSERT INTO teacher VALUES('t005');
+INSERT INTO teacher VALUES('t006');
+INSERT INTO teacher VALUES('t007');
+
+INSERT INTO grade VALUES('gr01',1,'t001');
+INSERT INTO grade VALUES('gr02',2,'t002');
+INSERT INTO grade VALUES('gr03',3,'t003');
+INSERT INTO grade VALUES('gr04',4,'t004');
+INSERT INTO grade VALUES('gr05',5,'t005');
+INSERT INTO grade VALUES('gr06',6,'t006');
+INSERT INTO grade VALUES('gr07',7,'t007');
+
+INSERT INTO class_room VALUES('c001','A','gr01');
+INSERT INTO class_room VALUES('c002','B','gr01');
+INSERT INTO class_room VALUES('c003','C','gr01');
+INSERT INTO class_room VALUES('c004','A','gr02');
+INSERT INTO class_room VALUES('c005','B','gr02');
+INSERT INTO class_room VALUES('c006','D','gr03');
+INSERT INTO class_room VALUES('c007','B','gr04');
+
+
+
+INSERT INTO student VALUES('st001','c001','gr01');
+INSERT INTO student VALUES('st002','c001','gr01');
+INSERT INTO student VALUES('st003','c002','gr01');
+INSERT INTO student VALUES('st004','c002','gr01');
+INSERT INTO student VALUES('st005','c003','gr01');
+
+
+INSERT INTO person VALUES('st001','Prasan','Batheegama','1990-05-03','35','Lotus','Galle road','Galle','0713625498','0912243533');
+INSERT INTO person VALUES('st002','Bashitha','Wijegunawardana','1992-05-03','23','Weliwatta','Hapugala','Galle','0712325498','0912246333');
+INSERT INTO person VALUES('st003','NIshen','Peiris','1992-03-06','25','Lake','Puttalam rd','Puttalam','0712525498','0912243253');
+INSERT INTO person VALUES('st005','Leshan','Batheegama','1994-05-03','24','Mannar','Galle road','Galle','0713663498','0912813533');
+INSERT INTO person VALUES('st006','Man','Batheegama','1990-05-03','34','Norton','Galle road','Galle','0713625434','0912243373');
+
